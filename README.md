@@ -27,7 +27,7 @@ https://github.com/elephanteafricano/PFA
 
  ## Installation et Exécution de l'application web:
 
- [Python](https://code.visualstudio.com/](https://www.python.org/)) est requis pour exécuter cette application. Voici comment installer les modules nécessaires :
+ [Python](https://www.python.org/) est requis pour exécuter cette application. Voici comment installer les modules nécessaires :
 
 ```Python
 pip3 install numpy pandas matplotlib seaborn sklearn
