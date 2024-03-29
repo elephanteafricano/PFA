@@ -19,7 +19,7 @@ https://github.com/elephanteafricano/PFA
 
 ## Technologies:
 - [Visual Studio Code](https://code.visualstudio.com/)
-- [Python](https://code.visualstudio.com/](https://www.python.org/))
+- [Python](https://www.python.org/)
 - [HTML](https://developer.mozilla.org/fr/docs/Web/HTML)
 - [CSS](https://code.visualstudio.com/](https://developer.mozilla.org/fr/docs/Web/CSS))
 - [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript)
