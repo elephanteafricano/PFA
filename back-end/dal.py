@@ -53,6 +53,39 @@ class Data_atv:
 
         df['bmi_groups'] = pd.cut(df['bmi'], bins=[0, 18.4, 24.9, 29.9, float('inf')],
                                     labels=['under weight', 'normal', 'overweight', 'obese']).astype('O')
+        
+    def eda(data):
+        df = pd.DataFrame(data)
+        num_cols = [col for col in df.columns[:-1] if
+                    (df[col].dtype != 'O') & (col not in ['hypertension', 'heart_disease'])]
+        fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(16, 8))
+        ax = ax.flatten()
+        boxplot_color = 'steelblue'
+        for i, col in enumerate(num_cols):
+            bp = ax[i].boxplot(df[col], vert=False)
+            ax[i].set_title(col, fontsize=14, fontweight='bold')
+            ax[i].grid(True, which='both', linestyle='--', linewidth=0.5, color='grey')
+            ax[i].set_yticklabels([])
+        plt.tight_layout(pad=4.0)
+        plt.show()
+
+    def bmi(data):
+        df = pd.DataFrame(data)
+        plt.figure(figsize=(16, 5))
+        plt.boxplot(df['bmi'], vert=False)
+        plt.title("Distribution of BMI")
+        plt.show()
+    
+    def d_count(data):
+        df = pd.DataFrame(data)
+        diabetes_counts = df['diabetes'].value_counts()
+
+        plt.figure(figsize=(8, 8))
+        plt.pie(diabetes_counts, labels=['Non-Diabetic', 'Diabetic'], autopct='%1.1f%%', startangle=140,
+                colors=['#66c2a5', '#fc8d62'])
+        plt.title('Diabetes Distribution', fontsize=16, fontweight='bold')
+        plt.axis('equal')
+        plt.show()
 
 
     @staticmethod
@@ -71,11 +104,11 @@ class Data_atv:
 class Machine_learning:
 
     def test_best_model():
-        # Créer des listes de colonnes numériques et catégorielles
+
         numeric_features = X.select_dtypes(include=['float64', 'int64']).columns
         categorical_features = X.select_dtypes(include=['object']).columns
 
-        # Définir les transformateurs pour les variables numériques et catégorielles
+
         numeric_transformer = ImbPipeline(steps=[
             ('scaler', StandardScaler())
         ])
@@ -84,25 +117,29 @@ class Machine_learning:
             ('onehot', OneHotEncoder(handle_unknown='ignore'))
         ])
 
-        # Appliquer les transformations aux colonnes
+
         preprocessor = ColumnTransformer(
             transformers=[
                 ('num', numeric_transformer, numeric_features),
                 ('cat', categorical_transformer, categorical_features)
             ])
 
-        # Créer un pipeline avec SMOTE et RandomForestClassifier
+        
         pipeline_rf = ImbPipeline(steps=[
             ('preprocessor', preprocessor),
             ('smote', SMOTE(random_state=42)),
             ('classifier', RandomForestClassifier(random_state=42))
         ])
 Data_atv.correlation(df)
+Data_atv.eda(df)
+Data_atv.bmi(df)
+Data_atv.d_count(df)
 df=Data_atv.itrft(df)
-# Séparer les fonctionnalités et la cible
+
+
 X = df.drop('diabetes', axis=1)
 y = df['diabetes']
 
 
-#Diviser les données en ensembles d'entraînement et de test
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
