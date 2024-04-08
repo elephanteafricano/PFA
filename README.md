@@ -36,7 +36,7 @@ pip3 install numpy pandas matplotlib seaborn sklearn
 Pour lancer l'application, assurez-vous d'être dans le répertoire de votre projet et exécutez les commandes suivantes :
 
 ```
-python app.py
+python controller.py
 ```
 
 Accédez ensuite à l'application via votre navigateur web préféré à l'adresse suivante :
