@@ -6,8 +6,10 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE
 from sklearn.base import accuracy_score
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, roc_auc_score
+from sklearn.metrics import auc, classification_report, roc_auc_score, roc_curve
 from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import re
@@ -146,6 +148,19 @@ class Machine_learning:
             ('smote', SMOTE(random_state=42)),
             ('classifier', DecisionTreeClassifier(max_depth=10, random_state=1, criterion='entropy'))
         ])
+        
+        pipeline_kn = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('classifier', KNeighborsClassifier(n_neighbors=5))
+        ])
+
+       
+        pipeline_nn = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('classifier', MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=42))
+        ])
 
         for name, pipeline in {'Random Forest': pipeline_rf, 'Logistic Regression': pipeline_lr,
                                'Decision Tree': pipeline_dt, 'K Nearest Neighbors': pipeline_kn,
@@ -159,6 +174,24 @@ class Machine_learning:
             print("Rapport de classification:\n", classification_report(y_test, y_pred))
             print("AUC:", roc_auc_score(y_test, y_pred_proba))
             print()
+            
+            
+        plt.figure(figsize=(10, 8))
+        for name, pipeline in {'Random Forest': pipeline_rf, 'Logistic Regression': pipeline_lr,
+                               'Decision Tree': pipeline_dt, 'K Nearest Neighbors': pipeline_kn,
+                               'Neural Network': pipeline_nn}.items():
+            pred_prob = pipeline.predict_proba(X_test)[:, 1]
+            fpr, tpr, _ = roc_curve(y_test, pred_prob)
+            roc_auc = auc(fpr, tpr)
+            plt.plot(fpr, tpr, lw=2, label=f'{name} (AUC = {roc_auc:.2f})')
+
+        plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
+        plt.xlabel('Taux de faux positifs (FPR)')
+        plt.ylabel('Taux de vrais positifs (TPR)')
+        plt.title('Courbes ROC pour différents modèles')
+        plt.legend(loc='lower right')
+        plt.grid(True)
+        plt.show()
         
         
 Data_atv.correlation(df)
