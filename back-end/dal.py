@@ -192,7 +192,40 @@ class Machine_learning:
         plt.legend(loc='lower right')
         plt.grid(True)
         plt.show()
-        
+    
+    def train_decision_tree_model(X_train, y_train):
+        numeric_features = X.select_dtypes(include=['float64', 'int64']).columns
+        categorical_features = X.select_dtypes(include=['object']).columns
+
+        numeric_transformer = ImbPipeline(steps=[
+            ('scaler', StandardScaler())
+        ])
+
+        categorical_transformer = ImbPipeline(steps=[
+            ('onehot', OneHotEncoder(handle_unknown='ignore'))
+        ])
+
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('num', numeric_transformer, numeric_features),
+                ('cat', categorical_transformer, categorical_features)
+            ])
+        pipeline_dt = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('classifier', DecisionTreeClassifier(max_depth=10, random_state=1, criterion='entropy'))
+        ])
+        for name, pipeline in {'Decision Tree': pipeline_dt}.items():
+         pipeline.fit(X_train, y_train)
+        return pipeline
+
+    def preprocess_and_predict(input_data, decision_tree_model):
+
+        df = pd.DataFrame([input_data], columns=['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level'])
+        df=Data_atv.itrft(df)
+        prediction = decision_tree_model.predict(df)
+
+        return prediction[0]
         
 Data_atv.correlation(df)
 Data_atv.eda(df)
