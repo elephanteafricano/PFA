@@ -4,6 +4,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE
+from sklearn.base import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -12,6 +15,7 @@ from typing import List
 from dataclasses import dataclass
 import pandas as pa
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 from models import *
 
@@ -130,6 +134,33 @@ class Machine_learning:
             ('smote', SMOTE(random_state=42)),
             ('classifier', RandomForestClassifier(random_state=42))
         ])
+
+        pipeline_lr = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('classifier', LogisticRegression(class_weight='balanced'))
+        ])
+
+        pipeline_dt = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('classifier', DecisionTreeClassifier(max_depth=10, random_state=1, criterion='entropy'))
+        ])
+
+        for name, pipeline in {'Random Forest': pipeline_rf, 'Logistic Regression': pipeline_lr,
+                               'Decision Tree': pipeline_dt, 'K Nearest Neighbors': pipeline_kn,
+                               'Neural Network': pipeline_nn}.items():
+            pipeline.fit(X_train, y_train)
+            y_pred = pipeline.predict(X_test)
+            y_pred_proba = pipeline.predict_proba(X_test)[:, 1]
+            print(name)
+            print("Train Accuracy Score:", accuracy_score(y_train, pipeline.predict(X_train)))
+            print("Test Accuracy Score:", accuracy_score(y_test, y_pred))
+            print("Rapport de classification:\n", classification_report(y_test, y_pred))
+            print("AUC:", roc_auc_score(y_test, y_pred_proba))
+            print()
+        
+        
 Data_atv.correlation(df)
 Data_atv.eda(df)
 Data_atv.bmi(df)
