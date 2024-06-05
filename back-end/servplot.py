@@ -37,3 +37,11 @@ def plot_hypertension_vs_diabetes(df):
     plt.xlabel('Hypertension')
     plt.ylabel('Nombre de personnes')
     plt.legend(title='Diabète', loc='upper right')
+
+def plot_heart_disease_vs_diabetes(df):
+    plt.figure(figsize=(10, 6))
+    sns.countplot(x='heart_disease', hue='diabetes', data=df)
+    plt.title('Relation entre les maladies cardiaques et le diabète')
+    plt.xlabel('Maladie cardiaque')
+    plt.ylabel('Nombre de personnes')
+    plt.legend(title='Diabète', loc='upper right')
