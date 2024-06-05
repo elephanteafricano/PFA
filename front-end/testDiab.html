@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST FINALE</title>
+    <link rel="stylesheet" href="/static/style/css1.css">
+
+</head>
+
+<body>
+
+    <!-- En-tête -->
+    <header>
+        <img src="/static/images/diabete.png" alt="Logo Diabète" class="logo">
+        <h1 class="header-title">Bienvenue à l'évaluation finale de notre outil de prédiction du diabète de type 2 !
+        </h1>
+        <button class="Btn2 "id="Btn2">
+            <div class="sign">
+                <svg viewBox="0 0 512 512">
+                    <path
+                        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z">
+                    </path>
+                </svg>
+            </div>
+            <div class="text2">Retour</div>
+        </button>
+
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <form class="form1" method="post" action="/TesterDiabet">
+                <div class="coolinput">
+                    <label for="gender" class="text">Choisissez votre genre:</label>
+                    <select class="input2" name="gender">
+                        <option value="Male">Mâle</option>
+                        <option value="Female">Femelle</option>
+                    </select>
+                </div>
+                <div class="coolinput">
+                    <label for="age" class="text">Entrez votre age :</label>
+                    <input type="text" placeholder="..." name="age" class="input">
+                </div>
+                <div class="coolinput">
+                    <label for="hypertension" class="text">Souffrez vous d'hypertension ou non ?:</label>
+                    <select class="input2" name="hypertension">
+                        <option value="1">Oui</option>
+                        <option value="0">Non</option>
+                    </select>
+                </div>
+                <div class="coolinput">
+                    <label for="heart_disease" class="text">Souffrez vous d'une maladie cardiaque ou non ?:</label>
+                    <select class="input2" name="heart_disease">
+                        <option value="1">Oui</option>
+                        <option value="0">Non</option>
+                    </select>
+                </div>
+                <div class="coolinput">
+                    <label for="smoking_history" class="text">Choisissez vos antécédents de tabagisme :</label>
+                    <select class="input2" name="smoking_history">
+                        <option value="not current">Non courant</option>
+                        <option value="current">Courant</option>
+                        <option value="former">Ancien</option>
+                        <option value="ever">Quasiment jamais</option>
+                        <option value="never">Jamais</option>
+                        <option value="no info">No Info</option>
+                    </select>
+                </div>
+                <div class="coolinput">
+                    <label for="poids" class="text">Entrez votre poids :</label>
+                    <input type="text" placeholder="example: 70Kg" name="poids" class="input">
+                </div>
+                <div class="coolinput">
+                    <label for="taille" class="text">Entrez votre taille :</label>
+                    <input type="text" placeholder="example: 1.80" name="taille" class="input">
+                </div>
+                <div class="coolinput">
+                    <label for="HbA1c_level" class="text">Entrez votre taux d'HbA1c :</label>
+                    <input type="text" placeholder="exemple: 6.2" name="HbA1c_level" class="input">
+                </div>
+                <div class="coolinput">
+                    <label for="blood_glucose_level" class="text">Entrez votre glycémie :</label>
+                    <input type="text" placeholder="exemple: 100" name="blood_glucose_level" class="input">
+                </div>
+
+
+                <button class="cssbuttons-io-button">Testez
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </button>
+            </form>
+
+            <form class="form1" method="post" action="/download_pdf">
+                <!-- Champs cachés pour passer les valeurs -->
+                <input type="hidden" name="gender" value="{{ gender }}">
+                <input type="hidden" name="age" value="{{ age }}">
+                <input type="hidden" name="hypertension" value="{{ hypertension }}">
+                <input type="hidden" name="heart_disease" value="{{ heart_disease }}">
+                <input type="hidden" name="smoking_history" value="{{ smoking_history }}">
+                <input type="hidden" name="poids" value="{{ poids }}">
+                <input type="hidden" name="taille" value="{{ taille }}">
+                <input type="hidden" name="HbA1c_level" value="{{ HbA1c_level }}">
+                <input type="hidden" name="blood_glucose_level" value="{{ blood_glucose_level }}">
+                <input type="hidden" name="prediction" value="{{ prediction }}">
+                <input type="hidden" name="conseils" value="{{ conseils }}">
+                <button class="Btnpdf">
+                    <svg
+                      class="svgIcon"
+                      viewBox="0 0 384 512"
+                      height="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                      ></path>
+                    </svg>
+                    <span class="icon2"></span>
+                  </button>
+            </form>
+        </div>
+
+
+        <div class="result-container">
+            <h2 class="result-title">Résultats du test</h2>
+            <div class="result-box">
+                <!-- Contenu des résultats à afficher -->
+                <p>
+                    {% if prediction is not none %}
+                <p>{{ prediction|safe }}</p>
+                <p>{{ message }}</p>
+                {% else %}
+                <p>Aucune prédiction disponible.</p>
+                {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Icône de docteur -->
+        <img src="/static/images/robot.png" alt="Icône docteur" class="doctor-icon">
+        <script>
+            document.getElementById('Btn2').addEventListener('click', () => {
+                window.location.href = '/espaceMembre'; // Redirect to the homepage
+            });
+        </script>
+</body>
+
+</html>
