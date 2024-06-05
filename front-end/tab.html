@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau des Utilisateurs</title>
+    <link rel="stylesheet" href="/static/style/stltab.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1 class="head">Tableau des Utilisateurs</h1>
+
+    <div class="container">
+        <table class="visitor-table">
+            <thead>
+                <tr>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Hypertension</th>
+                    <th>Heart Disease</th>
+                    <th>Smoking History</th>
+                    <th>BMI</th>
+                    <th>HbA1c Level</th>
+                    <th>Blood Glucose Level</th>
+                    <th>Diabetes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in df.iterrows() %}
+                <tr>
+                    <td>{{ row.gender }}</td>
+                    <td>{{ row.age }}</td>
+                    <td>{{ row.hypertension }}</td>
+                    <td>{{ row.heart_disease }}</td>
+                    <td>{{ row.smoking_history }}</td>
+                    <td>{{ row.bmi }}</td>
+                    <td>{{ row.HbA1c_level }}</td>
+                    <td>{{ row.blood_glucose_level }}</td>
+                    <td>{{ row.diabetes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <button class="download-btn" id="downloadBtn">Télécharger Excel</button>
+    </div>
+    <button class="Btn" onclick="window.location.href='{{ url_for('logout2') }}'">
+        <div class="sign">
+            <svg viewBox="0 0 512 512">
+                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+            </svg>
+        </div>
+        <div class="text">Acceuil</div>
+    </button> 
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const table = document.querySelector('.visitor-table');
+            const sheet = XLSX.utils.table_to_sheet(table);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, sheet, 'tableau_utilisateurs');
+            XLSX.writeFile(workbook, 'tableau_utilisateurs.xlsx');
+        });
+    </script>
+</body>
+</html>
