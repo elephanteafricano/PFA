@@ -31,7 +31,7 @@ function imc() {
   
   document.getElementById("calculer").addEventListener("click", imc);
   
-  //UX in the field of height
+
   document.getElementById("hauteur").addEventListener("input", function (event) {
     let hauteur = event.target.value;
   
@@ -42,7 +42,7 @@ function imc() {
     event.target.value = hauteur;
   });
   
-  //UX in the field of weight
+  
   document.getElementById("poids").addEventListener("input", function (event) {
     let poids = event.target.value;
   
@@ -61,9 +61,9 @@ function imc() {
   });
   
   document.getElementById('btn').addEventListener('click', () => {
-    window.location.href = '/'; // Redirect to the homepage
+    window.location.href = '/'; 
   });
   
   document.getElementById('action-button').addEventListener('click', () => {
-    window.location.href = '/TesterDiabet'; // Redirect to the homepage
+    window.location.href = '/TesterDiabet'; 
   });
