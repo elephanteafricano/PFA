@@ -45,3 +45,10 @@ def plot_heart_disease_vs_diabetes(df):
     plt.xlabel('Maladie cardiaque')
     plt.ylabel('Nombre de personnes')
     plt.legend(title='Diabète', loc='upper right')
+
+def plot_bmi_vs_diabetes(df):
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(x='diabetes', y='bmi', data=df)
+    plt.title('Relation entre l\'IMC et le diabète')
+    plt.xlabel('Diabète')
+    plt.ylabel('IMC')
