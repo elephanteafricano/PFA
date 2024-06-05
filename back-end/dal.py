@@ -1,27 +1,43 @@
+import pyodbc as my
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE
-from sklearn.base import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import auc, classification_report, roc_auc_score, roc_curve
-from sklearn.model_selection import train_test_split
+from sklearn import tree
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from imblearn.pipeline import Pipeline as ImbPipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
+from sklearn.metrics import classification_report, roc_auc_score
+from sklearn.metrics import roc_curve, auc
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+plt.style.use('ggplot')
 import re
 from typing import List
 from dataclasses import dataclass
 import pandas as pa
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
-
 from models import *
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 
-plt.style.use('ggplot')
+@dataclass
+class DataBase:
+    def get_connection():
+     return my.connect(
+            'DRIVER={ODBC Driver 17 for SQL Server};'
+            'SERVER=ELEPHANTE\\MSSQLSERVER01;'  
+            'DATABASE=db_diabete;'
+            'Trusted_Connection=yes;'
+        )
 
 @dataclass
 class DataEtl:
@@ -35,6 +51,19 @@ class DataEtl:
         #print(df_clean.isnull().sum())
         records = df_clean.to_records(index=False)
         return records
+    
+    def load(df_clean):
+       con = DataBase.get_connection()
+       cursor = con.cursor()
+       try:        
+        insert_query = "INSERT INTO d_diabete (gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level, diabetes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"  
+        values = [tuple(row) for row in df_clean.values] 
+        cursor.executemany(insert_query, values)
+        
+        con.commit()
+       except Exception as e:
+           print(e)
+
 
 df = DataEtl.extract("C:/Users/aze/Desktop/PPf/diabetes_prediction_dataset.csv")
 
