@@ -255,6 +255,58 @@ class Machine_learning:
         prediction = decision_tree_model.predict(df)
 
         return prediction[0]
+    
+import jwt
+import datetime
+
+SECRET_KEY = "Elephanto_jwt"
+
+class UserDao:
+
+    @staticmethod
+    def AddUser(email: str, password: str):
+        query = "INSERT INTO usser (email, password) VALUES (?, ?)"
+        values = (email, password)
+        con = DataBase.get_connection()
+        cursor = con.cursor()
+        cursor.execute(query, values)
+        con.commit()
+        user = User(email=email, password=password)
+        return user
+
+    @staticmethod
+    def authenticate(email: str, password: str):
+        query = "SELECT * FROM usser WHERE email=? AND password=?"
+        values = (email, password)
+        con = DataBase.get_connection()
+        cursor = con.cursor()
+        cursor.execute(query, values)
+        user = cursor.fetchone()
+        if user:
+            token = UserDao.generate_jwt(user[0])  
+            return {"user": user, "token": token}
+        else:
+            return None
+
+    @staticmethod
+    def generate_jwt(email: str):
+        payload = {
+            "email": email,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)  
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        return token
+
+    @staticmethod
+    def verify_jwt(token: str):
+        try:
+            decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            return decoded_token
+        except jwt.ExpiredSignatureError:
+            return None
+        except jwt.InvalidTokenError:
+            return None
+        
         
 Data_atv.correlation(df)
 Data_atv.eda(df)
