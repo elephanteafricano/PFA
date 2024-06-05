@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plots</title>
+    
+  <link rel="stylesheet" href="/static/style/stlplots.css">
+</head>
+<body>
+    <div class="open-btn" onmouseover="openSidebar()">☰</div>
+    <!-- Barre de navigation latérale -->
+    <div class="sidebar" id="sidebar" onmouseleave="closeSidebar()">
+        <a href="#gender_vs_diabetes">Gender vs diabetes</a>
+        <a href="#age_vs_diabetes">Age vs diabetes</a>
+        <a href="#hypertension_vs_diabetes">Hypertension vs diabetes</a>
+        <a href="#heart_disease_vs_diabetes">Heart disease vs diabetes</a>
+        <a href="#smoking_history_vs_diabetes">Smoking history vs diabetes</a>
+        <a href="#HbA1c_level_vs_diabetes">HbA1c_level vs diabetes</a>
+        <a href="#blood_glucose_level_vs_diabetes">Blood glucose level vs diabetes</a>
+
+     
+
+    <!-- Bouton "View tab" -->
+    <button class="view-tab-btn" onclick="window.location.href='{{ url_for('tab') }}'">View tab</button>
+    <button class="change_password-btn" onclick="window.location.href='{{ url_for('change_password') }}'">Modifier le mot de passe</button>
+
+
+       
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="content">
+        <div class="container">
+            <h1>Generated Plots</h1>
+            <div id="gender_vs_diabetes" class="plot">
+                <h2>Gender vs diabetes</h2>
+                <img src="{{ url_for('static', filename='gender_vs_diabetes.png') }}" alt="Gender vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique indique qu'il y a plus de femmes (genre 0) que d'hommes (genre 1) dans l'ensemble de données, indépendamment de la présence de diabète. Toutefois, le pourcentage de personnes atteintes de diabète semble similaire entre les deux genres, ce qui implique que le genre n'a peut-être pas un impact significatif sur le risque de diabète dans cette population.</p>
+            </div>
+
+            <div id="age_vs_diabetes" class="plot">
+                <h2>Age vs diabetes</h2>
+                <img src="{{ url_for('static', filename='age_vs_diabetes.png') }}" alt="Age vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique montre la relation entre l'âge et le diagnostic de diabète. On peut voir que les personnes plus âgées ont une plus forte probabilité d'avoir un diabète avéré (True Diabète), tandis que les personnes plus jeunes ont plus souvent un diabète "faux" (False Diabète). Cela suggère que le risque de diabète augmente avec l'âge, ce qui est cohérent avec les connaissances médicales sur le sujet.</p>
+            </div>
+
+           
+            <div id="hypertension_vs_diabetes" class="plot">
+                <h2>Hypertension vs diabetes</h2>
+                <img src="{{ url_for('static', filename='hypertension_vs_diabetes.png') }}" alt="Hypertension vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique révèle une relation significative entre l'hypertension et le diabète. Les individus souffrant d'hypertension (True) ont une incidence plus élevée de diabète par rapport à ceux sans hypertension (False). Cette corrélation soutient l'idée que l'hypertension est un facteur de risque important pour le développement du diabète, probablement en raison de mécanismes physiopathologiques communs tels que la résistance à l'insuline et les troubles métaboliques.</p>
+            </div>
+
+
+            <div id="heart_disease_vs_diabetes" class="plot">
+                <h2>Heart disease vs diabetes</h2>
+                <img src="{{ url_for('static', filename='heart_disease_vs_diabetes.png') }}" alt="Heart disease vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique montre une corrélation notable entre les maladies cardiaques et le diabète. Les personnes ayant des maladies cardiaques (True) ont une probabilité plus élevée d'avoir également le diabète, contrairement à celles sans maladies cardiaques (False). Cela suggère que les maladies cardiaques et le diabète sont souvent comorbides, ce qui peut indiquer des facteurs de risque communs ou des effets secondaires liés.</p>
+            </div>
+
+
+            <div id="smoking_history_vs_diabetes" class="plot">
+                <h2>Smoking history vs diabetes</h2>
+                <img src="{{ url_for('static', filename='smoking_history_vs_diabetes.png') }}" alt="Smoking history vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique montre la relation entre l'historique de tabagisme et la présence de diabète. On peut observer que les personnes sans historique de tabagisme (Historique de tabagisme = 0) ont un nombre beaucoup plus élevé de cas de "faux" diabète (False Diabète) par rapport aux personnes ayant un historique de tabagisme (Historique de tabagisme = 1). En revanche, le nombre de cas de "vrai" diabète (True Diabète) semble similaire entre les deux groupes.
+
+                    Cette observation suggère que le tabagisme est associé à une plus grande prévalence de prédiabète ou de diabète non diagnostiqué, mais n'a pas nécessairement un impact important sur le développement du diabète avéré. Autrement dit, le tabagisme pourrait être un facteur de risque pour les stades précoces du diabète, mais pas forcément pour les formes plus sévères de la maladie.</p>
+            </div>
+
+
+            <div id="HbA1c_level_vs_diabetes" class="plot">
+                <h2>HbA1c_level vs diabetes</h2>
+                <img src="{{ url_for('static', filename='HbA1c_level_vs_diabetes.png') }}" alt="HbA1c_level vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique montre une nette différence dans les niveaux de HbA1c (un marqueur du contrôle glycémique à long terme) entre les personnes ayant un "faux" diabète (False) et celles ayant un "vrai" diabète (True). Les personnes avec un "vrai" diabète présentent des niveaux de HbA1c beaucoup plus élevés, atteignant presque 8%, tandis que celles avec un "faux" diabète ont des niveaux plus faibles, autour de 5,5%.
+
+                    Cette observation est cohérente avec les critères diagnostiques du diabète, qui se basent en partie sur des seuils élevés de HbA1c. Les personnes avec un "vrai" diabète ont probablement des résultats de HbA1c dépassant ces seuils, ce qui explique leur classification en tant que diabétiques avérés. À l'inverse, les niveaux de HbA1c plus faibles des personnes avec un "faux" diabète indiquent qu'elles ne répondent pas aux critères diagnostiques malgré un risque élevé.</p>
+            </div>
+
+
+            <div id="blood_glucose_level_vs_diabetes" class="plot">
+                <h2>Blood glucose level vs diabetes</h2>
+                <img src="{{ url_for('static', filename='blood_glucose_level_vs_diabetes.png') }}" alt="Blood glucose level vs diabetes">
+                <h3 class="headerr">Interpretation:</h3>
+                <p class="interp">Ce graphique illustre la relation entre le niveau de glucose sanguin et le diagnostic de diabète. On peut voir que les personnes ayant un "faux" diabète (False Diabète) ont des niveaux de glucose sanguin relativement faibles, se situant autour de 150 mg/dl. En revanche, les personnes avec un "vrai" diabète (True Diabète) présentent des niveaux de glucose beaucoup plus élevés, atteignant près de 250 mg/dl.
+
+                    Cette observation est cohérente avec les critères diagnostiques du diabète, qui se basent sur des seuils de glycémie élevés. Les personnes avec un "faux" diabète ont probablement des résultats de glycémie en dessous des seuils de diagnostic, ce qui explique leur classification en tant que "faux" diabétiques. À l'inverse, les niveaux de glucose sanguins très élevés des personnes avec un "vrai" diabète sont caractéristiques de cette pathologie.</p>
+            </div>
+             
+        </div>
+    </div>
+    <!-- Bouton Logout -->
+    <div class="droite">
+        <button class="Btn" onclick="window.location.href='{{ url_for('logout2') }}'">
+            <div class="sign">
+                <svg viewBox="0 0 512 512">
+                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                </svg>
+            </div>
+            <div class="text">Logout</div>
+        </button>
+    </div>
+    <!-- Vos scripts JavaScript ici -->
+    <script>
+        // Fonctions JavaScript pour la barre latérale
+        function openSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.style.left = '0';
+        }
+
+        function closeSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.style.left = '-250px';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
