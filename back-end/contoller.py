@@ -55,3 +55,36 @@ def auth():
         return redirect(url_for('plots'))
     else:
         return render_template('auth.html', error='Login or password error')
+    
+
+@app.route("/espaceMembre", methods=["GET","POST"])
+def espaceMembre():
+    return render_template('espaceMembre.html',)
+
+@app.route("/change_password", methods=["GET", "POST"])
+def change_password():
+    if 'email' not in session:
+        return redirect(url_for('auth'))
+
+    if request.method == "POST":
+        email = session['email']
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        
+  
+        token = UserDao.generate_jwt(email)
+        
+     
+        if UserDao.update_password_for_current_user(token, old_password, new_password):
+            session.pop('email', None)
+            return redirect(url_for('auth'))
+        else:
+            return render_template('change_password.html', error="Invalid old password")
+    
+    return render_template('change_password.html')
+
+
+
+
+
+
