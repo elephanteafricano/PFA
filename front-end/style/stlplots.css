@@ -1,0 +1,365 @@
+   /* Styles pour la barre de navigation latérale */
+   .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #333;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+ 
+
+.sidebar a, .view-tab-btn, .change_password-btn, .Btn {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar a:hover, .view-tab-btn:hover, .change_password-btn:hover, .Btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.sidebar a:active, .view-tab-btn:active, .change_password-btn:active, .Btn:active {
+    background-color: #004494;
+    transform: translateY(1px);
+}
+
+
+/* Style pour l'icône */
+.open-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    height: 45px; /* Ajusté pour inclure le padding */
+    width: 45px; /* Ajusté pour inclure le padding */
+    background: #333;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Ajuster la taille de la police si nécessaire */
+}
+
+/* Style pour le contenu principal */
+.content {
+    margin-left: 250px; /* Ajusté pour compenser la largeur de la barre latérale */
+    transition: margin-left 0.3s ease;
+    display: flex;
+    justify-content: center; /* Pour centrer le conteneur horizontalement */
+    padding: 20px; /* Ajusté pour un meilleur aspect */
+}
+
+/* On cache la barre de navigation latérale par défaut sur petits écrans */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+    }
+
+    .content {
+        margin-left: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* Le reste de votre style CSS... */
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Pour centrer le contenu principal */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: margin 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 40px;
+}
+
+.plot {
+    margin-bottom: 40px;
+}
+
+.plot h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.plot img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.plot iframe {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .plot {
+        margin-bottom: 30px;
+    }
+
+    .plot h2 {
+        margin-bottom: 15px;
+    }
+
+    .plot iframe {
+        height: 400px;
+    }
+}
+
+/* Style pour la table */
+.visitor-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* Style pour les en-têtes de colonne */
+.visitor-table th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style pour les cellules de données */
+.visitor-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* Style pour les lignes impaires */
+.visitor-table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Style pour les lignes au survol */
+.visitor-table tr:hover {
+    background-color: #f2f2f2;
+}
+
+.exceeding {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.exceeding th,
+.exceeding td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.exceeding th {
+    background-color: #36529e;
+    color: #fff;
+}
+
+.exceeding tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.exceeding tr:hover {
+    background-color: #ffe9e9;
+}
+
+@media (max-width: 768px) {
+    .exceeding th,
+    .exceeding td {
+        padding: 10px 12px;
+    }
+}
+.Btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition-duration: .3s;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+            background-color: rgb(255, 65, 65);
+        }
+       
+
+        /* plus sign */
+        .Btn .sign {
+            width: 100%;
+            transition-duration: .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .Btn .sign svg {
+            width: 17px;
+        }
+
+        .Btn .sign svg path {
+            fill: white;
+        }
+        
+        /* text */
+        .Btn .text {
+            position: relative;
+            right: 0%;
+            width: 0%;
+            opacity: 0;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition-duration: .3s;
+        }
+
+        /* hover effect on button width */
+        .Btn:hover {
+            width: 125px;
+            border-radius: 40px;
+            transition-duration: .3s;
+        }
+
+        .Btn:hover .sign {
+            width: 30%;
+            transition-duration: .3s;
+            padding-left: 20px;
+        }
+        
+        /* hover effect button's text */
+        .Btn:hover .text {
+            opacity: 1;
+            width: 70%;
+            transition-duration: .3s;
+            padding-right: 10px;
+        }
+
+        /* button click effect*/
+        .Btn:active {
+            transform: translate(2px, 2px);
+        }
+        .headerr{
+            font-size: 18px;
+            color: #6d6c6c;
+        }
+        .interp{
+            font-weight: 600;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .droite{
+            margin-left:auto ;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+        /* Style pour le bouton "View tab" */
+.view-tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    height: 50px;
+    width: 250px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 23px;
+    margin-top: 20px; /* Adjust if needed */
+}
+
+.view-tab-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.view-tab-btn:active {
+    background-color: #004494;
+    transform: translateY(1px);
+}
+
+
+      /* Style pour le bouton "View tab" */
+      .change_password-btn {
+        display: flex;
+        align-items: end;
+        justify-content: end;
+        padding: 15px 30px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+        height: 50px;
+        width: auto;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-bottom: 23px;
+        margin-top: auto; /* Adjust if needed */
+    }
+    
+    .change_password-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+    
+    .change_password-btn:active {
+        background-color: #004494;
+        transform: translateY(1px);
+    }
