@@ -307,7 +307,42 @@ class UserDao:
         except jwt.InvalidTokenError:
             return None
         
+    @staticmethod
+    def update_password_for_current_user(token: str, old_password: str, new_password: str) -> bool:
+        decoded_token = UserDao.verify_jwt(token)
+        if not decoded_token:
+            return False
+
+        email = decoded_token['email']
         
+        authenticate_query = "SELECT * FROM usser WHERE email = ? AND password = ?"
+        authenticate_values = (email, old_password)
+        con = DataBase.get_connection()
+        cursor = con.cursor()
+        cursor.execute(authenticate_query, authenticate_values)
+        user = cursor.fetchone()
+
+        if user:
+            update_query = "UPDATE usser SET password = ? WHERE email = ?"
+            update_values = (new_password, email)
+            cursor.execute(update_query, update_values)
+            con.commit()
+            return True
+        else:
+            return False
+
+
+@dataclass
+class  DiabDao:
+    def getAll():
+        query = "Select gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level, diabetes  from d_diabete"
+        con = DataBase.get_connection()
+        df = pd.read_sql(query, con)
+        con.close()
+        return df
+
+df=DiabDao.getAll()
+    
 Data_atv.correlation(df)
 Data_atv.eda(df)
 Data_atv.bmi(df)
