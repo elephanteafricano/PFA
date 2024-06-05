@@ -253,3 +253,125 @@ def Pagedetest():
 
 
 
+
+@app.route('/plots')
+def plots():
+    df=DiabDao.getAll()
+    if not df.empty:
+       
+        save_plot(lambda: plot_gender_vs_diabetes(df), 'gender_vs_diabetes.png')
+        save_plot(lambda: plot_age_vs_diabetes(df), 'age_vs_diabetes.png')
+        save_plot(lambda: plot_hypertension_vs_diabetes(df), 'hypertension_vs_diabetes.png')
+        save_plot(lambda: plot_heart_disease_vs_diabetes(df), 'heart_disease_vs_diabetes.png')
+        save_plot(lambda: plot_smoking_history_vs_diabetes(df), 'smoking_history_vs_diabetes.png')
+        save_plot(lambda: plot_bmi_vs_diabetes(df), 'bmi_vs_diabetes.png')
+        save_plot(lambda: plot_HbA1c_level_vs_diabetes(df), 'HbA1c_level_vs_diabetes.png')
+        save_plot(lambda: plot_blood_glucose_level_vs_diabetes(df), 'blood_glucose_level_vs_diabetes.png')
+    return render_template('plots.html')
+
+
+@app.route('/tab')
+def tab():
+    query = "SELECT gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level, diabetes FROM nos_utilisateur"
+    con = DataBase.get_connection()
+    df = pd.read_sql(query, con)
+    con.close()
+    return render_template('tab.html',df=df)
+
+@app.route('/logout')
+def logout():
+    return render_template('acceuil.html')
+
+@app.route('/logout2')
+def logout2():
+    session.pop('email', None)
+    return render_template('acceuil.html')
+
+
+ 
+
+@app.route("/download_pdf", methods=["POST"])
+def download_pdf():
+    gender = request.form.get("gender")
+    age = request.form.get("age")
+    hypertension = request.form.get("hypertension")
+    heart_disease = request.form.get("heart_disease")
+    smoking_history = request.form.get("smoking_history")
+    weight = request.form.get("poids")
+    height = request.form.get("taille")
+    HbA1c_level = request.form.get("HbA1c_level")
+    blood_glucose_level = request.form.get("blood_glucose_level")
+    prediction = request.form.get("prediction").replace('<br>', '\n')
+    conseils = request.form.get("conseils").replace('<br>', '\n')
+
+    
+    logo_path = os.path.join('static', 'images', 'eco-dqxq1m4d1pw4cxu5f1gx6ur5cy8r5t27012016010025.jpg')
+    logo2 = os.path.join('static', 'images', 'diabete.png')
+
+    
+    bmi_plot_path = os.path.join('static', 'bmi_plot.png')
+    HbA1c_plot_path = os.path.join('static', 'hba1c_plot.png')
+    blood_glucose_level_plot_path = os.path.join('static', 'blood_glucose_level_plot.png')
+
+    
+    from fpdf import FPDF, HTMLMixin
+
+    class MyFPDF(FPDF, HTMLMixin):
+        pass
+
+    pdf = MyFPDF()
+
+    
+    pdf.add_page()
+    pdf.set_font("Arial", style='B', size=12)
+
+    
+    pdf.image(logo_path, x=10, y=10, w=50)
+    pdf.image(logo2, x=150, y=20, w=30)
+    
+
+    
+    pdf.set_xy(10, 60)
+    
+    pdf.cell(200, 10, txt="Résultats du Test de Diabète", ln=True, align='C')
+    pdf.ln(10)  
+    pdf.set_font("Arial", size=12)
+
+
+    pdf.cell(200, 10, txt=f"Genre: {gender}", ln=True)
+    pdf.cell(200, 10, txt=f"Âge: {age}", ln=True)
+    pdf.cell(200, 10, txt=f"Hypertension: {'Oui' if hypertension == '1' else 'Non'}", ln=True)
+    pdf.cell(200, 10, txt=f"Maladie cardiaque: {'Oui' if heart_disease == '1' else 'Non'}", ln=True)
+    pdf.cell(200, 10, txt=f"Antécédents de tabagisme: {smoking_history}", ln=True)
+    pdf.cell(200, 10, txt=f"Poids: {weight} kg", ln=True)
+    pdf.cell(200, 10, txt=f"Taille: {height} m", ln=True)
+    pdf.cell(200, 10, txt=f"Niveau HbA1c: {HbA1c_level}", ln=True)
+    pdf.cell(200, 10, txt=f"Niveau de glucose dans le sang: {blood_glucose_level}", ln=True)
+    pdf.ln(10)
+    pdf.multi_cell(0, 10, txt=f"Prédiction: {prediction}")
+    pdf.ln(10)
+    pdf.multi_cell(0, 10, txt=f"Conseils: {conseils}")
+
+    
+    pdf.add_page()
+
+    
+    pdf.image(bmi_plot_path, x=10, y=10, w=190)
+
+    
+    pdf.image(HbA1c_plot_path, x=10, y=pdf.get_y() + 50, w=190)
+
+    
+    pdf.image(blood_glucose_level_plot_path, x=10, y=pdf.get_y() + 120, w=190)
+
+    pdf_output = os.path.join('static', 'result.pdf')
+    pdf.output(pdf_output)
+
+    
+    return send_file(pdf_output, as_attachment=True)
+
+
+ 
+if __name__ == '__main__':
+    app.run(debug=True)
+
